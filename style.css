@@ -1,0 +1,43 @@
+@keyframes blink {
+	to { color: red; }
+}
+@font-face{
+	font-family: HalloMe;
+	src: url(/Hallo-Sans/hallo-sans-black.otf);
+}
+#joc {
+	text-align: center;
+	font-size: 110px;
+	font-family: 'HalloMe';
+	font-weight: 6;
+	color: blue;
+	animation: blink .2s steps(2, start) infinite;
+}
+
+body {
+	background-color: #9EC0FF;
+}
+
+.bground {
+	height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+.bground img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.4;
+}
+
+h1 {
+	text-align: center;
+	font-size: 50px;
+	font-family: 'HalloMe';
+	font-weight: 6;
+}
+footer a {
+	text-decoration: none;
+}

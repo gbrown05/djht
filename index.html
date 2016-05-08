@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <link href="style.css" media="all" rel="stylesheet" type="text/css" />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="/twtr.js"></script>
+      <script>
+      	function leadingZeroes(toPad, places) {
+		  var zero = places - toPad.toString().length + 1;
+		  return Array(+(zero > 0 && zero)).join("0") + toPad;
+		}
+		function checkIfJocHomered() {
+			if(req.status === 200 && req.readyState === 4) {
+				resp = JSON.parse(req.responseText);
+				for(var i = 0; i < resp["data"]["games"]["game"].length; i++) { 
+					if(typeof(resp["data"]["games"]["game"][i]["home_runs"]) == 'undefined') { continue;}
+					else if(typeof(resp["data"]["games"]["game"][i]["home_runs"]["player"]["last"]) == 'undefined') { 
+						for (j = 0; j < resp["data"]["games"]["game"][i]["home_runs"]["player"].length; j++) {
+							if(resp["data"]["games"]["game"][i]["home_runs"]["player"][j]["last"] === "Pederson" && resp["data"]["games"]["game"][i]["home_runs"]["player"][j]["first"] == "Joc") {
+								$('#joc').text('YES, HE HOMERED!!');
+								return;
+							}
+						}
+					}
+					else if(resp["data"]["games"]["game"][i]["home_runs"]["player"]["last"] === "Pederson" && 
+						resp["data"]["games"]["game"][i]["home_runs"]["player"]["first"] == "Joc") {
+							$('#joc').text('YES, HE HOMERED!!');
+							return;
+					}
+				}
+				$('#joc').text('NOT YET');
+				return;
+			}
+		}
+		function didJocHomerToday() {
+			var today = new Date();
+			var day = leadingZeroes(today.getDate(), 2);
+			var month = leadingZeroes(today.getMonth() + 1, 2);
+			req = new XMLHttpRequest();
+			req.open("GET", "http://gd2.mlb.com/components/game/mlb/year_" + today.getFullYear() + "/month_"+ month + "/day_" + day + "/master_scoreboard.json", true);
+			req.send(null);
+			req.onreadystatechange = checkIfJocHomered;
+			}
+      </script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+      <title>Did Joc Pederson Homer Today?</title>
+   </head>
+   <body onload="didJocHomerToday();">
+      <div class="bground">
+         <img src="joc.jpg">
+         <div class="container">
+            <h1>Did Joc Homer Today?</h1>
+            <br><br><br><br><br><br><br><br>
+            <div id='joc'>d</div>
+         </div>
+      </div>
+   </body>
+   <footer>
+      <div style='text-align:center;font-family:Arial;text-decoration:none;text-decoration:none'><br><br><a href='http://m.mlb.com/video/search?query=joc+pederson' target='_blank'>See them here</a><br><a href='https://twitter.com/share' class='twitter-share-button' data-text='Did Joc Pederson Homer Today?' data-related='georgebrown05' data-hashtags='jocpederson'>Tweet</a></div>
+      </div>
+      <div style='text-align:center;font-size:10px;font-family:Arial;'>
+      <br><br><br><br><br>by <a href='https://twitter.com/georgebrown05'>George Brown</a>
+   </footer>
+</html>
