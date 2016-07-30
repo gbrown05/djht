@@ -32,8 +32,13 @@
 				return;
 			}
 		}
+		Date.prototype.addHours = function(h) {    
+  			this.setTime(this.getTime() + (h*60*60*1000)); 
+   			return this;   
+		}
 		function didJocHomerToday() {
 			var today = new Date();
+			today = today.addHours(-8);
 			var day = leadingZeroes(today.getDate(), 2);
 			var month = leadingZeroes(today.getMonth() + 1, 2);
 			req = new XMLHttpRequest();
